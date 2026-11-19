@@ -18,17 +18,20 @@ This repository currently covers **Task 1: Project Architecture and Routing Setu
 
 ## Installation
 
-From the project directory:
-
-1. Install dependencies:
+1. Clone the repository and move into its directory:
+   ```bash
+   git clone https://github.com/osaroekaa/swiftbox-tracker.git
+   cd swiftbox-tracker
+   ```
+2. Install dependencies:
    ```bash
    npm install
    ```
-2. Start the development server:
+3. Start the development server:
    ```bash
    npm run dev
    ```
-3. Open the local address printed in the terminal (usually http://localhost:5173).
+4. Open the local address printed in the terminal (usually http://localhost:5173).
 
 No environment variables are needed at this stage.
 
