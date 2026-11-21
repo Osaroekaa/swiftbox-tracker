@@ -1,0 +1,98 @@
+.header {
+  background: var(--ink);
+  color: #fff;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.inner {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0.75rem 1.25rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 1.25rem;
+  font-weight: 800;
+  text-decoration: none;
+  letter-spacing: -0.02em;
+}
+
+/* A strip of packing tape across a box: the one memorable detail. */
+.mark {
+  width: 1.5rem;
+  height: 1.5rem;
+  border: 2px solid #fff;
+  border-radius: 0.2rem;
+  background: linear-gradient(90deg, transparent 38%, var(--tape) 38% 62%, transparent 62%);
+}
+
+.toggle {
+  font: inherit;
+  color: #fff;
+  background: transparent;
+  border: 1px solid rgb(255 255 255 / 0.5);
+  border-radius: 0.3rem;
+  padding: 0.4rem 0.8rem;
+  cursor: pointer;
+}
+
+.nav {
+  display: none;
+  width: 100%;
+}
+
+.navOpen {
+  display: block;
+}
+
+.list {
+  list-style: none;
+  margin: 0;
+  padding: 0.5rem 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.link {
+  display: block;
+  padding: 0.6rem 0.25rem;
+  text-decoration: none;
+  border-bottom: 3px solid transparent;
+}
+
+.link:hover {
+  border-bottom-color: rgb(255 255 255 / 0.5);
+}
+
+.active {
+  font-weight: 700;
+  border-bottom-color: var(--tape);
+}
+
+@media (min-width: 45rem) {
+  .toggle {
+    display: none;
+  }
+
+  .nav {
+    display: block;
+    width: auto;
+  }
+
+  .list {
+    flex-direction: row;
+    padding: 0;
+    gap: 1.5rem;
+  }
+}
