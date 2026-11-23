@@ -96,3 +96,38 @@ src/
   index.css     Global styles
   router.tsx    Route definitions
 ```
+
+## Design decisions
+
+### State management
+
+- **No global store.** Shipment lookup is the app's shared behavior, so it uses component state and the `useShipmentLookup` hook instead of Redux or Context.
+- **One state object.** The hook stores one `phase` (`idle`, `loading`, `success` or `error`) instead of separate flags. This prevents incompatible UI states, and the discriminated union only exposes `shipment` in the success state.
+- **Stale responses are ignored.** Each search gets an identifier, and only the latest search can update the state. Leaving the page also invalidates any search still in flight.
+- **The URL controls navigation.** React Router owns the current page, and the mobile menu closes when the path changes.
+
+### Structure
+
+Pages render the UI, the `useShipmentLookup` hook manages lookup state, and the shipment service owns fetching, validation and parsing. The service uses distinct errors for invalid IDs, missing shipments and service/data failures so the UI can show an appropriate message.
+
+### Performance
+
+- **Load tracking on demand.** The router dynamically imports the tracking page, keeping its code out of the initial home-page load.
+- **Keep assets simple.** The app uses a system font stack and CSS Modules, without external web fonts or content images.
+- **Use a local mock API.** Shipment data is fetched from a JSON file served by the app, requiring no separate API server.
+
+### Accessibility
+
+- Semantic `header`, `nav`, `main` and `footer` landmarks, plus a skip link to the main content.
+- The tracking form has a label, and its hint and validation error are linked with `aria-describedby`; invalid input is marked with `aria-invalid`.
+- Loading and error messages are announced with live regions (`role="status"` and `role="alert"`).
+- Focus moves to the main content after navigation, returns to the tracking input after an invalid submit, and returns to the menu button when Escape closes the mobile menu.
+- Focus-visible outlines are provided, and animations are disabled for people who prefer reduced motion.
+
+### Testing
+
+The shipment generator uses a fixed Faker seed and reference date, so generated data stays consistent. The Vitest suite has 20 test cases covering ID normalization and validation, shipment parsing, and fetch success and failure behavior, with Axios mocked.
+
+### Trade-offs
+
+The tracking page is split into a separate chunk, which requires an additional request when it is loaded. The app currently uses static mock data and does not include live polling or a retry button.
