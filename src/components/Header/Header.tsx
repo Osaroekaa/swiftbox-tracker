@@ -1,4 +1,5 @@
-import { useState } from 'react'
+import { useRef, useState } from 'react'
+import type { KeyboardEvent } from 'react'
 import { Link, NavLink, useLocation } from 'react-router-dom'
 import styles from './Header.module.css'
 
@@ -15,9 +16,17 @@ export default function Header() {
   const [openOn, setOpenOn] = useState<string | null>(null)
   const open = openOn === pathname
   const setOpen = (value: boolean) => setOpenOn(value ? pathname : null)
+  const toggleRef = useRef<HTMLButtonElement>(null)
+
+  function handleKeyDown(event: KeyboardEvent<HTMLElement>) {
+    if (event.key === 'Escape' && open) {
+      setOpen(false)
+      toggleRef.current?.focus()
+    }
+  }
 
   return (
-    <header className={styles.header}>
+    <header className={styles.header} onKeyDown={handleKeyDown}>
       <div className={styles.inner}>
         <Link to="/" className={styles.brand} onClick={() => setOpen(false)}>
           <span className={styles.mark} aria-hidden="true" />
@@ -25,6 +34,7 @@ export default function Header() {
         </Link>
 
         <button
+          ref={toggleRef}
           type="button"
           className={styles.toggle}
           aria-expanded={open}

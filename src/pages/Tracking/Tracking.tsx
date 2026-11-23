@@ -1,4 +1,4 @@
-import { useId, useState } from 'react'
+import { useId, useRef, useState } from 'react'
 import type { FormEvent } from 'react'
 import ShipmentCard from '../../components/ShipmentCard/ShipmentCard'
 import { useShipmentLookup } from '../../hooks/useShipmentLookup'
@@ -12,6 +12,7 @@ export default function Tracking() {
   const [validationError, setValidationError] = useState<string | null>(null)
   const { state, search } = useShipmentLookup()
   const inputId = useId()
+  const inputRef = useRef<HTMLInputElement>(null)
   const hintId = `${inputId}-hint`
   const errorId = `${inputId}-error`
 
@@ -19,6 +20,7 @@ export default function Tracking() {
     event.preventDefault()
     if (!isValidShipmentId(value)) {
       setValidationError(`That tracking number is not in the right format. ${FORMAT_HINT}`)
+      inputRef.current?.focus()
       return
     }
     setValidationError(null)
@@ -38,6 +40,7 @@ export default function Tracking() {
         </p>
         <div className={styles.row}>
           <input
+            ref={inputRef}
             id={inputId}
             className={styles.input}
             type="text"
